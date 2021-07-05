@@ -263,7 +263,7 @@ include 'inc/header.inc.php';
                             <th>titre annonce</th>
                             <th>commentaire</th>
                             <th>date </th>
-                            
+                            <th>répondre</th>
                         </tr>
                     </thead>
                     <tbody>
