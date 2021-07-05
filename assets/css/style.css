@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'star_jediregular';
+    src: url('../fonts/jedi/starjedi-webfont.woff2') format('woff2'),
+         url('../fonts/jedi/starjedi-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'episode_iregular';
+    src: url('../fonts/episode/episode1-webfont.woff2') format('woff2'),
+         url('../fonts/episode/episode1-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+h1{
+    font-family: 'star_jediregular';
+    color: yellow;
+}
+h2{
+    font-family: 'episode_iregular';
+}
+.star{
+    background-image: url('../img/espace_starwars.png');
+}
+
+.episode{
+    font-family: 'episode_iregular';
+}
+.sw{
+    font-family: 'star_jediregular';
+}
+
+.sw2{
+    background-image: url('../img/bg-sw2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-position: center;   
+}
+/********PAGE PROFIL*****/
+.hidden{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+
+/* PHOTO CARD */
+
+.height-photo {
+    height: 100px;
+}
+
+.zoom:hover {
+    transform: scale(1.2);
+    transition-duration: 1s ;
+}
+
+
+.scroll-1{
+    overflow: scroll;
+}
+.max{
+    height: 500px;
+} 
+        
