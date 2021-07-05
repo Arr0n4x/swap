@@ -90,7 +90,7 @@ include 'inc/header.inc.php';
 
             <div class="row">
         <div class="col-6 mt-3">
-            <h2>
+            <h2 class="text-warning">
                 <!-- TITRE - CATEGORIE -->
                 <?php echo $infos['titre']; ?></h2>
         </div>
@@ -176,30 +176,30 @@ include 'inc/header.inc.php';
             </div>
                   
         </div>
-        <div class="col-6 mt-5">
-            <h3 class="grayS">Description </h3>
-            <!-- TEXTE DESCRIPTION -->
+        <div class="col-6 mt-4 text-warning">
+            <h3 class="episode">Description : </h3>
+            <!--  DESCRIPTION -->
             <?php echo $infos['description_longue']; ?>
         </div>
     </div>
     <div class="row mt-2">
-        <div class="col-3 mt-2">
-            <!-- DATE PUBLICATION -->
+        <div class="col-3 mt-2 text-warning">
+            <!-- DATE OF PUBLICATION -->
             <i class="fas fa-calendar-alt seaGreen"></i> <?php echo $infos['date_enregistrement']; ?>
         </div>
-        <div class="col-3 mt-2">
-            <!-- profil annonce  -->
+        <div class="col-3 mt-2 text-warning">
+            <!-- PROFIL   -->
 
-            <i class="fas fa-user seaGreen"></i><a href="profil_annonce.php?id_membre=<?php echo $membre_info['id_membre']; ?>">Voir le profil de <?php echo $membre_info['pseudo']; ?></a>
+            <i class="fas fa-journal-whills"></i> <a href="profil_annonce.php?id_membre=<?php echo $membre_info['id_membre']; ?>">Voir le profil de <?php echo $membre_info['pseudo']; ?></a>
         </div>
-        <div class="col-3 mt-2">
+        <div class="col-3 mt-2 text-warning">
 
-            <!-- PRIX -->
-            <i class="fas fa-euro-sign seaGreen"></i> <?php echo $infos['prix']; ?>
+            <!-- PRICE  -->
+         <?php echo $infos['prix']; ?> <i class="fas fa-euro-sign seaGreen"></i>
         </div>
-        <div class="col-3 mt-2">
-            <!-- ADRESSE -->
-            <i class="fas fa-map-marker-alt seaGreen"></i> <?php echo $membre_info['adresse'] . ', ' . $membre_info['cp'] . ' ' . $membre_info['ville']; ?>
+        <div class="col-3 mt-2 text-warning">
+            <!-- ADRESS -->
+            <i class="fas fa-map-marker-alt seaGreen "></i> <?php echo $membre_info['adresse'] . ', ' . $membre_info['cp'] . ' ' . $membre_info['ville']; ?>
         </div>
     </div>
     <div class="row ">
@@ -266,7 +266,6 @@ include 'inc/header.inc.php';
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Avis ou commentaire</h5>
-                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                             <form class="row" method="post">
                                 <select name="noter" id="noter">
                                     <option value="avis">Noter/donner un avis sur le vendeur</option>
@@ -290,12 +289,12 @@ include 'inc/header.inc.php';
     <?php } ?>
     <!-- Si l'utilisteur connete decide de laisser un commentaire  -->
                 <?php
-    if(isset($_POST['noter']) && $_POST['noter'] == 'commentaire') {
+    if(isset($_POST['noter']) && $_POST['noter'] == 'commentaire' ) {
             echo '<form method="post" class="row border p-3  shadow  mb-5 rounded w-50 mx-auto">
             <div class="col-11 col-lg-6 text-center text-warning mx-auto">
             <div class="mb-3 ">
             <label for="form_commentaire">Laisser un commentaire</label>
-            <textarea name="comm" id="comm" class="form-control rounded mx-auto "  ></textarea> 
+            <textarea name="comm" id="comm" class="form-control rounded mx-auto " required ></textarea> 
             <input type="submit" class="btn btn-secondary">
             </div>
             </div>
