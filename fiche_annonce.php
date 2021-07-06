@@ -41,8 +41,9 @@ if(isset($_POST['comm'])) {
 $commentaire = $_POST['comm'];
             
 // ON COMMENCE L'ENREGISTREMENT
-$enregistre_comm = $pdo->prepare("INSERT INTO commentaire (membre_id, annonce_id, commentaire,date_enregistrement) VALUES (:membre_id, :annonce_id, :commentaire, NOW())");
+$enregistre_comm = $pdo->prepare("INSERT INTO commentaire (membre_id, annonce_id, commentaire, date_enregistrement, membre_id_2) VALUES (:membre_id, :annonce_id, :commentaire, NOW(), :membre_id_2)");
 $enregistre_comm->bindParam(':membre_id', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
+$enregistre_comm->bindParam(':membre_id_2',$membre_info['id_membre'], PDO::PARAM_STR);
 $enregistre_comm->bindParam(':annonce_id', $id_annonce, PDO::PARAM_STR);
 $enregistre_comm->bindParam(':commentaire', $commentaire, PDO::PARAM_STR);
 $enregistre_comm->execute();
@@ -133,7 +134,6 @@ include 'inc/header.inc.php';
 
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-
                     <?php
                     // ON met un compteur a 0 afin de pouvoir mettre un 'active' sur la premiere image du carousel
                     $counter = 1;

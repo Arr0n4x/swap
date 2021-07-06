@@ -53,60 +53,52 @@ $telephone ='';
 
 
 
-            // Recuperation des titre des annonces commentees
+    // Recuperation des titre des annonces commentees----------------------
         $info_annonce = $pdo->prepare("SELECT * FROM commentaire AS c, annonce AS a, membre AS M WHERE c.annonce_id = a.id_annonce AND m.id_membre = :membre_id ORDER BY c.date_enregistrement DESC" ) ;
         $info_annonce->bindParam(':membre_id', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
-
         $info_annonce->execute();
-        // Recuperation des commentaire
-        $liste_commentaires = $pdo->prepare("SELECT * FROM commentaire WHERE membre_id = :id_membre ORDER BY date_enregistrement DESC" ) ;
-        $liste_commentaires->bindParam(':id_membre', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
-        $liste_commentaires->execute();
+    // Recuperation des commentaire sur nos propres annonces 
+        $info_commentaires = $pdo->prepare("SELECT * FROM commentaire AS c, annonce AS a WHERE a.membre_id = ".$_SESSION['membre']['id_membre']." ORDER BY c.date_enregistrement DESC" ) ;
+        $info_commentaires->execute();
 
-        //  If all fields are filled in
+
+    //  If all fields are filled in----------------------
         if(isset($_POST['pseudo']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['telephone']) &&isset($_POST['civilite'])) {
          
-    // Remove the special characters and spaces and inject the results of the form into the variables
-    $pseudo = trim($_POST['pseudo']);
-    $nom = trim($_POST['nom']);
-    $prenom = trim($_POST['prenom']);
-    $email = trim($_POST['email']);
-    $telephone = trim($_POST['telephone']);
-    $civilite = trim($_POST['civilite']);
+    // Remove the special characters and spaces and inject the results of the form into the variables----------------------
+        $pseudo = trim($_POST['pseudo']);
+        $nom = trim($_POST['nom']);
+        $prenom = trim($_POST['prenom']);
+        $email = trim($_POST['email']);
+        $telephone = trim($_POST['telephone']);
+        $civilite = trim($_POST['civilite']);
     
 
-      // errors are anticipated
-      $erreur = false;
+    // errors are anticipated----------------------
+        $erreur = false;
 
-        // checking mail
-            // - cheking mail's format
+    // checking mail----------------------
+    // - cheking mail's format----------------------
         if( filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-            $erreur = true;
-            $msg .= '<div class="alert alert-warning" role="alert"> Attention, Le format du mail est invalide.</div>';
-
+        $erreur = true;
+        $msg .= '<div class="alert alert-warning" role="alert"> Attention, Le format du mail est invalide.</div>';
         }
-
-          // FOR MODIFICATION
-          // We check if the id_membre exists and is not empty: if it does, we are in modification
+    // FOR MODIFICATION----------------------
+    // We check if the id_membre exists and is not empty: if it does, we are in modification----------------------
         if( !empty($_POST['id_membre']) ) {
-            $id_membre = trim($_POST['id_membre']);
-        } else  {
-            $msg .= '<div class="alert alert-warning" role="alert"> Attention, Le format du mail est invalide.</div>';
+        $id_membre = trim($_POST['id_membre']);
+        }else{
+        $msg .= '<div class="alert alert-warning" role="alert"> Attention, Le format du mail est invalide.</div>';
         }
-        
-         // if all is ok initiate the modification
-         if($erreur == false) {
-            echo 'hello';
-            $verif_id_membre = $pdo->prepare("SELECT * FROM membre WHERE id_membre = :id_membre");
-            $verif_id_membre->bindParam(':id_membre', $id_membre, PDO::PARAM_STR);
-            $verif_id_membre->execute();
-
+    // if all is ok initiate the modification----------------------
+        if($erreur == false) {
+        echo 'hello';
+        $verif_id_membre = $pdo->prepare("SELECT * FROM membre WHERE id_membre = :id_membre");
+        $verif_id_membre->bindParam(':id_membre', $id_membre, PDO::PARAM_STR);
+        $verif_id_membre->execute();
         // Il ne faut pas vérifier si la référence  existe dans le cadre d'une modif, donc on rajoute un controle sur id_membre qui doit être vide. Car en cas d'insert, l'id_membre sera vide, en revanche sur une  modif il n'est pas vide.
         if( $verif_id_membre->rowCount() >= 1 ) {
-            
-          
-            $enregistrement = $pdo->prepare("UPDATE membre SET  nom = :nom, prenom = :prenom, telephone = :telephone, email = :email, civilite = :civilite WHERE id_membre = :id_membre");
-        
+        $enregistrement = $pdo->prepare("UPDATE membre SET  nom = :nom, prenom = :prenom, telephone = :telephone, email = :email, civilite = :civilite WHERE id_membre = :id_membre");
         $enregistrement->bindParam(':id_membre', $id_membre, PDO::PARAM_STR);
         $enregistrement->bindParam(':nom', $nom, PDO::PARAM_STR);
         $enregistrement->bindParam(':prenom', $prenom, PDO::PARAM_STR);
@@ -114,28 +106,23 @@ $telephone ='';
         $enregistrement->bindParam(':email', $email, PDO::PARAM_STR);
         $enregistrement->bindParam(':civilite', $civilite, PDO::PARAM_STR);
         $enregistrement->execute(); 
-
-
+        
         session_destroy();
         echo 'if(confirm == ok';
         echo "<script type='text/javascript'>alert('Vos modifications sont bien enregistrés merci de bien vouloir vous re-connecter');document.location.href = 'connexion.php';
-                </script>";
-
-
-    }
-
+        </script>";
+                    }
+            }
 
         }
-
-    }
-    $membre_id = $_SESSION['membre']['id_membre'];
-    $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo FROM annonce WHERE membre_id = $membre_id ORDER BY  titre");
+        $membre_id = $_SESSION['membre']['id_membre'];
+        $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo FROM annonce WHERE membre_id = $membre_id ORDER BY  titre");
 }else{
-    header('location:connexion.php');
+        header('location:connexion.php');
 }
 
-include 'inc/header.inc.php'; 
-  include 'inc/nav.inc.php';
+        include 'inc/header.inc.php'; 
+        include 'inc/nav.inc.php';
         
 ?>
         <main class="container">
@@ -253,7 +240,7 @@ include 'inc/header.inc.php';
                     </table>
                 </div>
                 <div class="star p-5 mt-5 rounded text-center shadow-lg border border-warning ">
-                        <h2 style="color: yellow;"> commentaires reçues </h2>               
+                        <h2 style="color: yellow;"> commentaires reçus </h2>               
                     </div>
                 <div class="col-12 mt-5   rounded p-3">
                     <table class="table bg-light table-bordered  text-center rounded">
@@ -268,9 +255,10 @@ include 'inc/header.inc.php';
                     </thead>
                     <tbody>
                     <?php
-                         while(($titreannonce = $info_annonce->fetch(PDO::FETCH_ASSOC)) && ($commentaire = $liste_commentaires->fetch(PDO::FETCH_ASSOC))){
-                                 echo '<tr><td>'.$titreannonce['titre'] .'</td><td>'.$commentaire['commentaire'] .'</td>
-                                 <td>'.$commentaire['date_enregistrement'].'</td></tr>' ;
+                         while(($titreannonce = $info_annonce->fetch(PDO::FETCH_ASSOC)) && ($commentaire = $info_commentaires->fetch(PDO::FETCH_ASSOC))){
+                                 echo '<tr><td>'.$titreannonce['titre'] .'</td>
+                                           <td>'.$commentaire['commentaire'] .'</td>
+                                           <td>'.$commentaire['date_enregistrement'].'</td></tr>' ;
                               
                      }
       
