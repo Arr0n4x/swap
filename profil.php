@@ -258,7 +258,27 @@ $telephone ='';
                          while(($titreannonce = $info_annonce->fetch(PDO::FETCH_ASSOC)) && ($commentaire = $info_commentaires->fetch(PDO::FETCH_ASSOC))){
                                  echo '<tr><td>'.$titreannonce['titre'] .'</td>
                                            <td>'.$commentaire['commentaire'] .'</td>
-                                           <td>'.$commentaire['date_enregistrement'].'</td></tr>' ;
+                                           <td>'.$commentaire['date_enregistrement'].'</td> 
+                                           <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#avis">
+                                           répondre
+                                       </button>
+                           
+                                       <!-- Modal -->
+                                       <div class="modal fade p-4" id="avis" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                           <div class="modal-dialog">
+                                               <div class="modal-content">
+                                                   <div class="modal-header">
+                                                       <h5 class="modal-title" id="exampleModalLabel">Réponse</h5>
+                                                       <form class="row" method="post">
+                                                       <textarea class="form-control rounded" id="reponse" name="reponse"></textarea>
+                                                       <button type="submit" class="btn btn-primary">envoyer</button>
+                                                       </form>
+                                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div></td>
+                                        </tr>';
                               
                      }
       
