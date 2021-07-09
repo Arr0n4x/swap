@@ -244,7 +244,14 @@ include 'inc/header.inc.php';
                              $membre= $rec_membre->fetch(PDO::FETCH_ASSOC);
                                  echo '<tr><td>'.$membre['pseudo'].'</td>
                                  <td>'.$commentaire['commentaire'] .'</td>
-                                 <td>'.$commentaire['date_enregistrement'].'</td></tr>' ;      
+                                 <td>'.$commentaire['date_enregistrement'].'</td></tr>' ; 
+                            if(!empty($commentaire['reponse'])) {
+                                        
+
+                                echo ' 
+                                <tr ><td class=" bg-success text-white">REPONSE</td>
+                                <td colspan="2">'.$commentaire['reponse'] .'</td></tr>';
+                            }
                      }
                     ?>  
                     </tbody>

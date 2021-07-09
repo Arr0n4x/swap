@@ -58,8 +58,17 @@ $telephone ='';
         $info_annonce->bindParam(':membre_id', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
         $info_annonce->execute();
     // Recuperation des commentaire sur nos propres annonces 
-        $info_commentaires = $pdo->prepare("SELECT * FROM commentaire AS c, annonce AS a WHERE a.membre_id = ".$_SESSION['membre']['id_membre']." ORDER BY c.date_enregistrement DESC" ) ;
+        $info_commentaires = $pdo->prepare("SELECT *, commentaire.date_enregistrement AS date_enre, annonce.titre AS titre_a, membre.pseudo AS pseudo FROM commentaire AS commentaire INNER JOIN annonce AS annonce ON commentaire.annonce_id = annonce.id_annonce  INNER JOIN membre AS membre ON commentaire.membre_id = membre.id_membre WHERE commentaire.membre_id_2 = " . $_SESSION['membre']['id_membre'] . "");
         $info_commentaires->execute();
+    //requete d'enregistrement de la réponse 
+
+            
+        if(isset($_POST['reponse'])){
+            $enregistrement_reponse = $pdo->prepare("UPDATE commentaire SET reponse = :reponse WHERE id_commentaire = :id_commentaire");
+            $enregistrement_reponse->bindParam(':reponse', $_POST['reponse'], PDO::PARAM_STR);
+            $enregistrement_reponse->bindParam(':id_commentaire', $_POST['id_commentaire'], PDO::PARAM_STR);
+            $enregistrement_reponse->execute();
+        }    
 
 
     //  If all fields are filled in----------------------
@@ -122,7 +131,7 @@ $telephone ='';
 }
 
         include 'inc/header.inc.php'; 
-        include 'inc/nav.inc.php';
+         include 'inc/nav.inc.php';
         
 ?>
         <main class="container">
@@ -256,9 +265,10 @@ $telephone ='';
                     <tbody>
                     <?php
                          while(($titreannonce = $info_annonce->fetch(PDO::FETCH_ASSOC)) && ($commentaire = $info_commentaires->fetch(PDO::FETCH_ASSOC))){
+                            if (empty($commentaire['reponse'])){
                                  echo '<tr><td>'.$titreannonce['titre'] .'</td>
                                            <td>'.$commentaire['commentaire'] .'</td>
-                                           <td>'.$commentaire['date_enregistrement'].'</td> 
+                                           <td>'.$commentaire['date_enre'].'</td> 
                                            <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#avis">
                                            répondre
                                        </button>
@@ -270,6 +280,7 @@ $telephone ='';
                                                    <div class="modal-header">
                                                        <h5 class="modal-title" id="exampleModalLabel">Réponse</h5>
                                                        <form class="row" method="post">
+                                                       <input type="hidden" name="id_commentaire" value="'.$commentaire['id_commentaire'].'">
                                                        <textarea class="form-control rounded" id="reponse" name="reponse"></textarea>
                                                        <button type="submit" class="btn btn-primary">envoyer</button>
                                                        </form>
@@ -279,6 +290,7 @@ $telephone ='';
                                            </div>
                                        </div></td>
                                         </tr>';
+                            }
                               
                      }
       

@@ -36,6 +36,8 @@ if (isset($_GET['id_membre'])) {
     //   $membre_notant = $pdo->prepare("SELECT * FROM membre, note WHERE  id_membre = :id_membre AND id_membre = membre_id2");
     //   $membre_notant->bindParam('id_membre', $_GET['id_membre'], PDO::PARAM_STR);
     //   $membre_notant->execute();
+// moyenne générale des notes
+    $rec_note = $pdo->query(" SELECT  FLOOR(AVG(note)) FROM note WHERE membre_id2 = " . $_SESSION['membre']['id_membre'] . "");
 
 
 
@@ -69,6 +71,28 @@ include 'inc/nav.inc.php';
             <div class="col-8 mt-5 text-warning">
                 <p><span class="fw-bold">Prénom :</span> <?php echo $membre_info['prenom']     ?></p>
                 <p><span class="fw-bold">Téléphone :</span> <?php echo $membre_info['telephone']     ?></p>
+                <?php echo'Votre note moyenne est de :  '; $moyenne_note = $rec_note->fetch(PDO::FETCH_ASSOC);
+                        // echo 'Votre notre général est : ' . $moyenne_note['FLOOR(AVG(note))'] .'';
+                        
+                        if ($moyenne_note['FLOOR(AVG(note))'] == 1) {
+                            echo  '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                        } elseif ($moyenne_note['FLOOR(AVG(note))']== 2) {
+                            echo  '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                        } elseif ($moyenne_note['FLOOR(AVG(note))'] == 3) {
+                            echo  '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+                        } elseif ($moyenne_note['FLOOR(AVG(note))'] == 4) {
+                            echo  '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+                        } elseif ($moyenne_note['FLOOR(AVG(note))'] == 5) {
+                            echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+                        }
+
+                        
+                        
+                        
+                    
+                
+                ?>
+                
                 <div><span class="fw-bold">Notes et avis :</span>
                     <?php 
 
