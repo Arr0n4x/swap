@@ -1,5 +1,14 @@
 
 <?php
+
+// if(isset($_GET['recherche'])){
+//     $recherche= $pdo->prepare("SELECT * FROM categorie WHERE motcles LIKE '%".$_GET['recherche']."%'");
+//     $recherche->bindParam(':motcles', $_GET['recherche'], PDO::PARAM_STR);
+//     $recherche->execute();
+//     $resultat_recherche = $recherche->fetchAll(PDO::FETCH_ASSOC);
+//     var_dump($resultat_recherche);
+    
+// }
 ?>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top star">
             <div class="container-fluid ">
@@ -57,12 +66,17 @@
                         <!-- /liens pour l'admin -->
 
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" id="search" placeholder="Rechercher" aria-label="Search">
-                        <button class="btn btn-outline-light text-warning" type="submit">Rechercher</button>
+                    <form class="d-flex" method="GET">
+                    <label  class="text-warning"for="myDataList" class="form-label">Chercher un produit :</label>
+                    <input class="form-control" list="datalistOptions" id="myDataList" placeholder="rechercher">
+                    <datalist id="datalistOptions">
+                    </datalist>
                     </form>
                 </div>
             </div>
+            <!-- JQUERY CDN -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"></script>
+            <script src="assets/js/app.js"></script>
         </nav>
         
                     
