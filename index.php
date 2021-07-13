@@ -30,7 +30,13 @@ if (isset($_GET['categorie'])) {
 } else {
     $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo, categorie_id, cp FROM annonce ORDER BY  date_enregistrement");
 }
-
+ // requete de récupération des annonce par le champs recherche 
+ if(isset($_GET['recherche'])){
+     $liste_annonces=$pdo->prepare("SELECT * FROM annonce WHERE description_courte LIKE :description_courte");
+     $search='%'.$_GET['recherche'].'%';
+     $liste_annonces->bindParam(':description_courte', $search, PDO::PARAM_STR);
+     $liste_annonces->execute();
+ }
 
 //$requete_filtre.='price<=:price';
 if(isset($_POST['prix']) ){
@@ -48,7 +54,7 @@ if(isset($_POST['prix']) ){
 
 
 include 'inc/header.inc.php'; 
-  include 'inc/nav.inc.php';
+    include 'inc/nav.inc.php';
         
 ?>
         <main class="container">

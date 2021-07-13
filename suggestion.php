@@ -1,10 +1,10 @@
 <?php
 include 'inc/init.inc.php';
-include 'inc/functions.inc.php';
+ include 'inc/functions.inc.php';
 $search=$_GET['myInputValue'];
-$search=htmlspecialchars($search);
-$stmt = $pdo->query("SELECT  description_longue FROM annonce WHERE   description_longue LIKE '%".$search."%' ");
-$suggestion = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $search=strtoupper($search);
+$stmt = $pdo->query("SELECT description_courte FROM annonce WHERE description_courte LIKE '%".$search."%' ");
+$suggestions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-echo json_encode($suggestion);
+echo json_encode($suggestions);

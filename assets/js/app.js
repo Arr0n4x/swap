@@ -19,7 +19,7 @@ $(document).ready(function () {
 
             let listOptions = "";
             $.each(data, function (index, value) {
-                listOptions += "<option> " + value.description_longue + " </option>";
+                listOptions += "<option> " + value.description_courte + " </option>";
             });
 
             $("#datalistOptions").html(listOptions);

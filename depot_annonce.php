@@ -22,10 +22,49 @@ $pays = '';
 $ville = '';
 $adresse = '';
 $cp ='';
+$id_annonce='';
 
 
 
 $recup_categorie = $pdo->query('SELECT * FROM categorie ORDER BY titre');
+
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+// Modification d'une annonce
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+if(!empty($_POST['id_annonce'])){
+    $id_annonce=trim($_POST['id_annonce']);
+}
+if(isset($_GET['action']) && $_GET['action'] == 'modifier' && !empty($_GET['id_annonce'])){
+    // Pour la modification d'un annonce il faut proposer à l'utilisateur les données déjà enregistrées afin qu'il ne change que la ou les valeurs qu'il souhaite
+    // Une requete pour récupérer les infos de cette annonce, un fetch et on affiche dasn le form via les variables déjà en place dans le form
+    
+    $modification = $pdo->prepare('SELECT * FROM annonce WHERE id_annonce = :id_annonce');
+    $modification->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR);
+    $modification->execute();
+  
+    $infos_annonce = $modification->fetch(PDO::FETCH_ASSOC);
+    $id_annonce = $infos_annonce['id_annonce'];
+    $titre = $infos_annonce['titre'];
+    $description_courte = $infos_annonce['description_courte'];
+    $description_longue = $infos_annonce['description_longue'];
+    $prix = $infos_annonce['prix'];
+    $photo = $infos_annonce['photo'];
+    $pays = $infos_annonce['pays'];
+    $ville = $infos_annonce['ville'];
+    $adresse = $infos_annonce['adresse'];
+    $cp = $infos_annonce['cp'];
+    $membre = $infos_annonce['membre_id'];
+    $categorie = $infos_annonce['categorie_id'];
+  }
+  
+  
+  //----------------------------------------------------------------
+  //----------------------------------------------------------------
+  // Fin modification d'un annonce
+  //----------------------------------------------------------------
+  //----------------------------------------------------------------
 
 
 
@@ -158,7 +197,9 @@ if(isset($_POST['titre']) &&
             }
         }
         // registration on Database
+    }
         if( $erreur == false ) {
+            if(empty($id_annonce)){
             $enregistrement_photo = $pdo->prepare('INSERT INTO photo (id_photo, photo1, photo2, photo3, photo4, photo5) VALUES(NULL, :photo1, :photo2, :photo3, :photo4, :photo5)');
             $enregistrement_photo->bindParam(':photo1', $photo1, PDO::PARAM_STR);
             $enregistrement_photo->bindParam(':photo2', $photo2, PDO::PARAM_STR);
@@ -187,11 +228,33 @@ if(isset($_POST['titre']) &&
             $enregistrement_annonce->execute();
             
             header('location:depot_annonce.php');
+        }else{
+             
+        
+            $recup_categorie_id = $recup_categorie->fetch(PDO::FETCH_ASSOC);
+            $id_categorie = $recup_categorie_id['id_categorie'];
+            $modification_annonce = $pdo->prepare("UPDATE annonce SET  titre=:titre, description_courte=:description_courte, description_longue=:description_longue, prix=:prix, pays=:pays, ville=:ville, adresse=:adresse, cp=:cp, membre_id=:membre_id, categorie_id=:categorie_id WHERE id_annonce = :id_annonce");
+            $modification_annonce->bindParam(':titre', $titre, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':description_courte', $description_courte, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':description_longue', $description_longue, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':prix', $prix, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':pays', $pays, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':ville', $ville, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':adresse', $adresse, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':cp', $cp, PDO::PARAM_STR);
+            $modification_annonce->bindParam(':membre_id', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
+            $modification_annonce->bindParam(':categorie_id', $_POST['categorie'] , PDO::PARAM_STR);
+            
+            $modification_annonce->bindParam(':id_annonce', $id_annonce, PDO::PARAM_STR);
+            $modification_annonce->execute();
+            
+            // header('location:depot_modification')
 
+        }
                     
         }
-
-        }
+        var_dump($erreur);
+        
 } 
 
 
@@ -218,6 +281,8 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
 //--------------------------------------
 //--------------------------------------
 //--------------------------------------
+
+
 $membre_id = $_SESSION['membre']['id_membre'];
 
 
@@ -227,7 +292,7 @@ $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, pri
 
 
 include 'inc/header.inc.php'; 
- include 'inc/nav.inc.php';
+include 'inc/nav.inc.php';
 ?>
        <main class="container ">
        <br>
@@ -308,7 +373,11 @@ include 'inc/header.inc.php';
                             </div>
                             <div class="mb-3">
                                 <label for="ville" class="form-label"><i class="fas fa-house-user seaGreen"></i> Ville</label>
-                                  <select class="form-control " id="ville" name="ville" ></select>
+                                <input type="text" class="form-control " id="ville" name="ville" value="<?php echo $ville; ?>">
+                                  <!-- <select class="form-control " id="ville" name="ville" ></select> -->
+                            </div>
+                            <div class="mb-3">
+                                <input type="hidden" class="form-control " id="id_annonce" name="id_annonce" value="<?php echo $id_annonce; ?>">
                             </div>
                             <div class="mb-3">     
                                 <button type="submit" class="btn btn-outline-light text-warning episode " id="validation_annonce" >Valider</button>
@@ -347,7 +416,7 @@ include 'inc/header.inc.php';
                                 }
 
                                 // Rajout de deux liens pour les actions : modifier, supprimer
-                                echo '<td><a href="?action=modifier&id_article=' . $annonce['id_annonce'] . '" class="btn btn-primary"><i class="far fa-edit"></i></a></td>';
+                                echo '<td><a href="?action=modifier&id_annonce=' . $annonce['id_annonce'] . '" class="btn btn-primary"><i class="far fa-edit"></i></a></td>';
                                 echo '<td><a href="?action=supprimer&id_annonce=' . $annonce['id_annonce'] . '" class="btn btn-danger" onclick="return (confirm(\'êtes vous sûr ?\'))"><i class="far fa-trash-alt"></i></a></td>';
                                 echo '</tr>';
                      }

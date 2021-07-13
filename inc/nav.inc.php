@@ -59,6 +59,7 @@
                                 <a class="dropdown-item text-warning" href="<?php echo URL; ?>admin/gestion_categorie.php">Categorie</a>
                                 <a class="dropdown-item text-warning" href="<?php echo URL; ?>admin/gestion_commentaire.php">Commentaires</a>
                                 <a class="dropdown-item text-warning" href="<?php echo URL; ?>admin/gestion_note.php">Notes</a>
+                                <a class="dropdown-item text-warning" href="<?php echo URL; ?>admin/statistique.php">Statistiques</a>
                             </div>
                         </li>
 
@@ -66,11 +67,11 @@
                         <!-- /liens pour l'admin -->
 
                     </ul>
-                    <form class="d-flex" method="GET">
+                    <form class="d-flex" method="GET" action="<?php echo URL; ?>index.php">
                     <label  class="text-warning"for="myDataList" class="form-label">Chercher un produit :</label>
-                    <input class="form-control" list="datalistOptions" id="myDataList" placeholder="rechercher">
-                    <datalist id="datalistOptions">
-                    </datalist>
+                    <input class="form-control" list="datalistOptions" id="myDataList" name="recherche" placeholder="rechercher">
+                    <datalist id="datalistOptions"></datalist>
+                    <button class="btn btn-outline-dark text-warning w-80">rechercher</button>
                     </form>
                 </div>
             </div>
