@@ -126,7 +126,7 @@ $telephone ='';
         }
         $membre_id = $_SESSION['membre']['id_membre'];
         $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo FROM annonce WHERE membre_id = $membre_id ORDER BY  titre");
-}else{
+    }else{
         header('location:connexion.php');
 }
 

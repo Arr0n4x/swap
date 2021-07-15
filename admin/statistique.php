@@ -11,11 +11,11 @@ $membreActif = $pdo->query("SELECT COUNT(id_annonce) AS nb, pseudo FROM annonce,
 // annonces les plus anciennes
 $liste_annonces = $pdo->query("SELECT id_annonce, titre, DATE_FORMAT(date_enregistrement, '%d/%m/%Y') AS date FROM annonce ORDER BY date_enregistrement ASC LIMIT 5");
 // categories contenant le plus d'annonce
-$liste_categorie = $pdo->query("SELECT id_categorie, titre, COUNT(*) AS nb FROM categorie, annonce WHERE id_categorie = categorie_id GROUP BY categorie ORDER BY COUNT(*) DESC LIMIT 5");
+$liste_categorie = $pdo->query("SELECT id_categorie, categorie.titre, COUNT(*) AS nb FROM categorie AS categorie, annonce AS annonce WHERE categorie.id_categorie = annonce.categorie_id GROUP BY categorie.titre ORDER BY COUNT(*) DESC LIMIT 5");
 
 
 include '../inc/header.inc.php';
-// include '../inc/nav.inc.php';
+ include '../inc/nav.inc.php';
 ?>
 
 
@@ -69,7 +69,7 @@ include 'inc/nav.inc.php';
 
             while ($categorie = $liste_categorie->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="mt-5">';
-                echo '<ul><li>' . $categorie['categorie'] . ' - ID : ' . $categorie['id_categorie'] . '     <span class="px-3 py-1 border rounded-pill alert-danger"> ' . $categorie['nb'] . ' annonce(s) dans cette catégorie <span></li></ul>';
+                echo '<ul><li>' . $categorie['titre'] . ' - ID : ' . $categorie['id_categorie'] . '     <span class="px-3 py-1 border rounded-pill alert-danger"> ' . $categorie['nb'] . ' annonce(s) dans cette catégorie <span></li></ul>';
                 echo ' </div>';
             }
             ?>
@@ -80,4 +80,4 @@ include 'inc/nav.inc.php';
 
         </main>
 <?php
-include 'inc/footer.inc.php';
+include '../inc/footer.inc.php';

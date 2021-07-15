@@ -98,7 +98,7 @@ include 'inc/header.inc.php';
         <div class="col-6 mt-3">
             <!-- LIEN CONTACT -->
             <!-- Ligthbox contact -->
-            <button type="button" class="btn bg-seaGreen" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?php echo $membre_info['pseudo']; ?>">Contacter le vendeur</button>
+            <button type="button" class="btn text-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?php echo $membre_info['pseudo']; ?>">Contacter le vendeur</button>
 
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -331,7 +331,7 @@ include 'inc/header.inc.php';
         ?>
    <div class="row">
        <div class="col-12">
-           <h2 class="grayS afterh2">Autres annonces</h2>
+           <h2 class=" afterh2 text-warning text-center">Autres annonces</h2>
 
        </div>
    </div>

@@ -135,6 +135,7 @@ if(isset($_POST['titre']) &&
             $erreur = true;
             $msg .= '<div class="alert alert-warning" role="alert">Format de l\'image invalide, formats acceptés : jpg / jpeg / png / gif / webp.</div>';
         }
+    
         //photo2
         if(!empty($_FILES['photo2']['name'])) {
                 $random = random_int(1, 1000);
@@ -197,7 +198,10 @@ if(isset($_POST['titre']) &&
             }
         }
         // registration on Database
-    }
+    }elseif(empty($_FILES['photo1']['name'])){
+        $erreur = true;
+         $msg.=$msg .= '<div class="alert alert-warning" role="alert">1 photo minimum obligatoire</div>';
+      } // fin controle image chargé
         if( $erreur == false ) {
             if(empty($id_annonce)){
             $enregistrement_photo = $pdo->prepare('INSERT INTO photo (id_photo, photo1, photo2, photo3, photo4, photo5) VALUES(NULL, :photo1, :photo2, :photo3, :photo4, :photo5)');
@@ -248,12 +252,12 @@ if(isset($_POST['titre']) &&
             $modification_annonce->bindParam(':id_annonce', $id_annonce, PDO::PARAM_STR);
             $modification_annonce->execute();
             
-            // header('location:depot_modification')
+            
 
         }
                     
         }
-        var_dump($erreur);
+      
         
 } 
 

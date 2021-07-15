@@ -2,7 +2,7 @@
 include 'inc/init.inc.php';
 include 'inc/functions.inc.php';
 
-
+if(user_is_connected()){
 
 if (isset($_GET['id_membre'])) {
     // recuperation des infos du membre selectionne sur la fiche annonce
@@ -50,6 +50,10 @@ else {
 }
 
 }
+}else{
+    header('location:connexion.php');
+}
+
 
 
 include 'inc/header.inc.php';
