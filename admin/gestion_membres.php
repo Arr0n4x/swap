@@ -19,15 +19,15 @@ include '../inc/functions.inc.php';
 if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id_membre']) ) {
     // si l'indice action existe dans $_GET et si sa valeur est égal à supprimmer && et si id_article existe et n'est pas vide dans $_GET
     // Requete delete basée sur l'id_article pour supprimer l'article  en question.
-    $suppression = $pdo->prepare("DELETE FROM membre WHERE id_membre = :id_membre");// preparer la requete
-    $suppression->bindParam(':id_membre', $_GET['id_membre'], PDO::PARAM_STR);// selectionner la cible de la requete
-    $suppression->execute(); // executer la requete 
+    $suppression = $pdo->prepare("DELETE FROM membre WHERE id_membre = :id_membre");// prepare
+    $suppression->bindParam(':id_membre', $_GET['id_membre'], PDO::PARAM_STR);// selection of target
+    $suppression->execute(); // execute
 }
 //--------------------------------------
 //--------------------------------------
 //--------------------------------------
 
-//------RECUPERATION MEMBRE-------------
+//------GET MEMBER----------------------
 //--------------------------------------
 //--------------------------------------
 $liste_membre = $pdo->query("SELECT id_membre, pseudo, nom, prenom, telephone, email, civilite, statut, date_enregistrement FROM membre ORDER BY  nom");
@@ -84,7 +84,7 @@ include '../inc/nav.inc.php';
                                     }
                                 }
 
-                                // Rajout liens pour l'action supprimer
+                                
                                 echo '<td><a href="?action=supprimer&id_membre=' . $membre['id_membre'] . '" class="btn btn-danger" onclick="return (confirm(\'êtes vous sûr ?\'))"><i class="far fa-trash-alt"></i></a></td>';
                                 echo '</tr>';
                                

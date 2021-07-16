@@ -2,42 +2,40 @@
 include 'inc/init.inc.php';
 include 'inc/functions.inc.php';
 
- // DECONNEXION UTILISATEUR
+ // user's unconnexion
  if( isset($_GET['action']) && $_GET['action'] == 'deconnexion' ) {
-    // on détruit la session
+    // session is destroyed
     session_destroy();
     // unset($_SESSION['membre']);
     // $msg .= '<div class="alert alert-success">Déconnexion ok</div>';
 }
 
-// Restriction d'accès, si l'utilisateur est connecté, on redirige vers profil.php
+// access restricted
 if( user_is_connected() == true ) {
      header('location:profil.php');
 }
 
 $pseudo = '';
 
-// Si le formulaire a été validé
+// if form is valid
 if( isset($_POST['pseudo']) && isset($_POST['mdp']) ) {
     $pseudo = trim($_POST['pseudo']);
     $mdp = trim($_POST['mdp']);
 
-    // on déclenche une requete selon le pseudo
+    // pseudo request
     $connexion = $pdo->prepare("SELECT * FROM membre WHERE pseudo = :pseudo");
     $connexion->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
     $connexion->execute();
 
-    // on vérifie si on a une ligne. Si c'est le cas le pseudo est ok sinon erreur
+    // rowcont of pseudo
     if( $connexion->rowCount() > 0 ) {
         // pseudo ok
-        // on doit vérifier le mdp
+        // mdp checking 
         $infos = $connexion->fetch(PDO::FETCH_ASSOC); // 1 seule ligne = 1 fetch (pas de boucle)
         // echo '<pre>'; print_r($infos); echo '</pre>';
         // password_verify(mdp_du_form, mdp_de_la_bdd) permet de confirmer si le mdp correspond à celui enregistré au préalable
         if( password_verify($mdp, $infos['mdp']) ) {
             // mdp ok
-            // Afin de conserver les informations de l'utilisateur, on place la réponse de la BDD dans la session.
-            // Cela nous permettra ensuite en demandant si ces informations sont présentes si l'utilisateur est bien connecté
             $_SESSION['membre'] = array();
             $_SESSION['membre']['id_membre'] = $infos['id_membre'];
             $_SESSION['membre']['pseudo'] = $infos['pseudo'];
@@ -49,16 +47,16 @@ if( isset($_POST['pseudo']) && isset($_POST['mdp']) ) {
             $_SESSION['membre']['civilite'] = $infos['civilite'];
             $_SESSION['membre']['statut'] = $infos['statut'];  
             
-            // l'utilisateur est connecté, on le redirige vers profil.php
+            // if user is connect redirection on profil
             header('location:profil.php');
             
         } else {
-            // erreur sur le mdp
+            // mdp error's
             $msg .= '<div class="alert alert-danger mb-3">Attention,<br>Erreur sur le pseudo et/ou le mot de passe.</div>';
         }
 
     } else {
-        // erreur sur le pseudo
+        // pseudo error's
         $msg .= '<div class="alert alert-danger mb-3">Attention,<br>Erreur sur le pseudo et/ou le mot de passe.</div>';
     }
 
@@ -85,7 +83,7 @@ include 'inc/nav.inc.php';
 
             <div class="row">
                 <div class="col-4 mx-auto mt-5 bg-light rounded mb-5">
-                    <!-- faire un formulaire avec les deux champs suivant : pseudo / mdp + un bouton de validation -->
+                    <!-- form with two input -->
                     <form method="post" >
                         <div class="mb-3">
                             <label for="pseudo" class="form-label">Pseudo <i class="text-primary fas fa-user-alt"></i></label>

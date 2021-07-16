@@ -1,3 +1,6 @@
+
+// CODE for SEARCHING ON NAVBAR-----------------------------
+
 $(document).ready(function () {
 
 

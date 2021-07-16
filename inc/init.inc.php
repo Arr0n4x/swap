@@ -10,18 +10,18 @@ $options = array(
 );
 $pdo = new PDO($host, $login, $password, $options);
 
-// Création d'une varaible vide que 'lon appelle sur toutes nos pazgs en dessous du titre de la page. Cette variable nous permet de mettre des messages utilisateur dedans, ils s'afficheront naturellement ensuite.
+// msg is variable for message in case of problems
 $msg = '';
 
-// Création/ovurerture de la session
+// création or opening of session
 session_start();
 
-// délcaration de constantes 
-// url absolue
+// CONST
+// url 
 define('URL' , 'http://php/SWAP/');
-// chemin racine serveur pour l'enregistrement des fichiers chargé via le formulaire.
+// ROOT PATH
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']); // cette information est récupérée dans la super globale $_SERVER : exemple C:/wamp64/www
-// chemin depuis le serveur vers notre site 
+// ROOT SERVER
 define('PROJECT_PATH', '/SWAP/' );// a modifier lors de la mise en ligne
 
 // exemple : echo ROOT_PATH . PROJECT_PATH;

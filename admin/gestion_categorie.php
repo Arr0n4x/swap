@@ -14,11 +14,10 @@ include '../inc/functions.inc.php';
         //--------------------------------------
 
 if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id_categorie']) ) {
-    // si l'indice action existe dans $_GET et si sa valeur est égal à supprimmer && et si id_article existe et n'est pas vide dans $_GET
-    // Requete delete basée sur l'id_article pour supprimer l'article  en question.
-    $suppression = $pdo->prepare("DELETE FROM categorie WHERE id_categorie = :id_categorie");// preparer la requete
-    $suppression->bindParam(':id_categorie', $_GET['id_categorie'], PDO::PARAM_STR);// selectionner la cible de la requete
-    $suppression->execute(); // executer la requete 
+    
+    $suppression = $pdo->prepare("DELETE FROM categorie WHERE id_categorie = :id_categorie");// prepare
+    $suppression->bindParam(':id_categorie', $_GET['id_categorie'], PDO::PARAM_STR);// select target
+    $suppression->execute(); // execute
 }
     //--------------------------------------
     //--------------END DELETE MEMBER-------
@@ -33,7 +32,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
-        //MODIFICATION D UNE CATEGORIE
+        //CATEGORY MODIFICATION
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
@@ -41,8 +40,8 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
         //---------------------------------------------------------------------------------------------------
 
         if( isset($_GET['action']) && $_GET['action'] == 'modifier' && !empty($_GET['id_categorie']) ){
-        // pour la modification d'une catégorie il faut proposer  des données déjà enregistrées afin qu'il ne change que la valeur concernée
-        // une requete pour récupérer les informations de cette categorie, un fetch et un affichage dans la form via les variables déjà en place dans le form
+        // to modify catégory i propose data who's already saved to only change the spécific value
+        // a request tu get the information of category and a fetch in the form
         $modification = $pdo->prepare("SELECT * FROM categorie WHERE id_categorie = :id_categorie");
         $modification->bindParam(':id_categorie', $_GET['id_categorie'], PDO::PARAM_STR);
         $modification->execute();
@@ -59,7 +58,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
-        // FIN MODIFICATION ARTICLE
+        // END OF MODIFICATION
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------
@@ -77,7 +76,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
     //---------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------
-        // on vérifie l'existence des éléments dans POST
+        // cheking the existence in POST
         if ( isset($_POST['titre']) &&
             isset($_POST['motcles']) 
         ){
@@ -88,8 +87,8 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
 
             $erreur = false;
 
-        // POUR MODIFICATION
-        // On vérifie si l'id_categorie existe et n'est pas vide si c'est le cas on est en modification
+        // FOR MODIFICATION
+        // cheking if id_categorie exist
         if( !empty($_POST['id_categorie']) ) {
             $id_categorie = trim($_POST['id_categorie']);
         }
@@ -98,7 +97,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
         
 
     $erreur = false;
-    // CONTROLE---------------------------------------------------------------------------------------------------------------------------------------------
+    // CONTROL---------------------------------------------------------------------------------------------------------------------------------------------
     // TITRE
     if( iconv_strlen($titre) < 4 || iconv_strlen($titre) > 14) {
         $erreur = true;
@@ -112,7 +111,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
         $msg .= '<div class="alert alert-danger mb-3">Attention,<br>Caractère autorisé pour le titre : a-z 0-9 ._- </div>';
     }
      
-          // - disponibilité du nom de catégorie 
+          // - category's name possibility
           $verif_titre = $pdo->prepare("SELECT * FROM categorie WHERE titre = :titre");
           $verif_titre->bindParam(':titre' , $titre, PDO::PARAM_STR);
           $verif_titre->execute();
@@ -121,16 +120,16 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
               $msg .= '<div class="alert alert-danger mb-3">Attention,<br>Ce titre est déjà pris</div>';
 
           } 
-          //enregistrement de la BDD 
+          //saving in the database
             if($erreur == false){
                 
 
                 if(empty($id_categorie)) {
-                    //si $id_categorie est vide : INSERT
+                    //if $id_categorie is empty : INSERT
                     $enregistrement = $pdo->prepare("INSERT INTO categorie (titre, motcles) VALUES (:titre, :motcles)");
 
             }else{
-                // SINON UPDATE
+                // ELSE UPDATE
                 $enregistrement = $pdo->prepare("UPDATE categorie SET  titre = :titre, motcles = :motcles WHERE id_categorie = :id_categorie");
                 $enregistrement->bindParam(':id_categorie', $id_categorie, PDO::PARAM_STR);
                 header('location:gestion_categorie.php');
@@ -141,7 +140,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
             $enregistrement->execute();
 
             $msg .= '<div class="alert alert-success text-center mb-3">catégorie ajouter</div>';
-            // Pour éviter de renvoyer les données lors du rechargement de page, on envoie sur gestion_categorie
+            // avoid to sendback the same datas 
             header('location:gestion_categorie.php');
             }
 
@@ -149,7 +148,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id
 }
 
 
-        //------RECUPERATION MEMBRE-------------
+        //------GETTING MEMBER-------------
         //--------------------------------------
         //--------------------------------------
     $liste_categorie = $pdo->query("SELECT * FROM categorie ORDER BY  id_categorie");

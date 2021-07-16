@@ -25,19 +25,19 @@ include 'inc/nav.inc.php';
         
 ?>
         <main class="container">
-            <div class="bg-light p-5 rounded text-center">
+            <div class="star p-5 rounded text-center text-warning episode">
             <br>
-                <h1><i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover"></i> SWAP <i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover"></i></h1>
+                <h1><i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover "></i> SWAP <i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover"></i></h1>
                 <p class="lead">It's a long way to the top if you wanna Swap n' Roll<hr><?php echo $msg; ?></p>                
             </div>
 
-            <div class="row">
+            <div class="row text-warning episode">
         <div class="col-sm-6 mt-5">
             <h4>Top 5 des membres les mieux notés</h4>
             <?php
             while ($membre = $liste_membre->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="mt-5">';
-                echo '<ul><li>' . $membre['prenom'] . ' ' . $membre['nom'] . ' (' . $membre['pseudo'] . ')    <span class="px-3 py-1 border rounded-pill alert-danger" > ' . round($membre['moyenne'], 2) . ' étoiles basé sur ' . $membre['nb'] . ' avis <span></li></ul>';
+                echo '<ul><li>' . $membre['prenom'] . ' ' . $membre['nom'] . ' (' . $membre['pseudo'] . ')    <span class=" text-warning" > ' . round($membre['moyenne'], 2) . '  étoiles basé sur ' . $membre['nb'] . ' avis <span></li></ul>';
                 echo ' </div>';
             }
             ?>
@@ -47,7 +47,7 @@ include 'inc/nav.inc.php';
             <?php
             while ($actif = $membreActif->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="mt-5">';
-                echo '<ul><li>' . $actif['pseudo'] . ' <span class="px-3 py-1 border rounded-pill alert-danger" > ' . $actif['nb'] . ' annonces en cours <span></li></ul>';
+                echo '<ul><li>' . $actif['pseudo'] . ' <span class="text-warning" > ' . $actif['nb'] . ' annonces en cours <span></li></ul>';
                 echo ' </div>';
             }
             ?>
@@ -57,7 +57,7 @@ include 'inc/nav.inc.php';
             <?php
             while ($annonce = $liste_annonces->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="mt-5">';
-                echo '<ul><li>' . $annonce['titre'] . ' - ID : ' . $annonce['id_annonce'] . '     <br><span class="px-3 py-1 border rounded-pill alert-danger"> publiée depuis le ' . $annonce['date'] . ' <span></li></ul>';
+                echo '<ul><li>' . $annonce['titre'] . ' - ID : ' . $annonce['id_annonce'] . '     <br><span class="text-warning"> publiée depuis le ' . $annonce['date'] . ' <span></li></ul>';
 
                 echo ' </div>';
             }
@@ -69,7 +69,7 @@ include 'inc/nav.inc.php';
 
             while ($categorie = $liste_categorie->fetch(PDO::FETCH_ASSOC)) {
                 echo '<div class="mt-5">';
-                echo '<ul><li>' . $categorie['titre'] . ' - ID : ' . $categorie['id_categorie'] . '     <span class="px-3 py-1 border rounded-pill alert-danger"> ' . $categorie['nb'] . ' annonce(s) dans cette catégorie <span></li></ul>';
+                echo '<ul><li>' . $categorie['titre'] . ' - ID : ' . $categorie['id_categorie'] . '     <span class="text-warning"> ' . $categorie['nb'] . ' annonce(s) dans cette catégorie <span></li></ul>';
                 echo ' </div>';
             }
             ?>

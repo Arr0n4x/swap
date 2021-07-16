@@ -8,24 +8,24 @@ if (isset($_GET['id_annonce'])) {
     $infos_annonce->execute();
 
 
-    // Requete d'affichage des photos
+    // gettings photos
     $id_annonce = $_GET['id_annonce'];
 
     $info_photo = $pdo->prepare("SELECT * FROM annonce, photo WHERE  id_annonce = :id_annonce AND photo_id = id_photo");
     $info_photo->bindParam('id_annonce', $id_annonce, PDO::PARAM_STR);
     $info_photo->execute();
 
-    // Requete de recuperation des info du membre ayant posté l'annonce
+    // gettings infos of member
     $info_membre = $pdo->prepare("SELECT * FROM annonce, membre WHERE  id_annonce = :id_annonce AND membre_id = id_membre");
     $info_membre->bindParam('id_annonce', $id_annonce, PDO::PARAM_STR);
     $info_membre->execute();
 
-    // on vérifie si on a récupéré un article
+    // getting articles
     if ($infos_annonce->rowCount() > 0) {
         $infos = $infos_annonce->fetch(PDO::FETCH_ASSOC);
         $membre_info = $info_membre->fetch(PDO::FETCH_ASSOC);
 
-        // On propose d'autres annonces
+        // others announces
         $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo FROM annonce ORDER BY  date_enregistrement");
     } else {
 
@@ -36,11 +36,11 @@ if (isset($_GET['id_annonce'])) {
 }
 
 
-// Si un commentaire est posté via le formulaire en lightbox
+// if a comment is post on lightbox
 if(isset($_POST['comm'])) {
 $commentaire = $_POST['comm'];
             
-// ON COMMENCE L'ENREGISTREMENT
+// REGISTER STARTING
 $enregistre_comm = $pdo->prepare("INSERT INTO commentaire (membre_id, annonce_id, commentaire, date_enregistrement, membre_id_2) VALUES (:membre_id, :annonce_id, :commentaire, NOW(), :membre_id_2)");
 $enregistre_comm->bindParam(':membre_id', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
 $enregistre_comm->bindParam(':membre_id_2',$membre_info['id_membre'], PDO::PARAM_STR);
@@ -51,14 +51,14 @@ header('location:index');
 
 }
 
-// Si un avis et une note sont postés via le formulaire en lightbox
+// COMMENT OR NOTE
 if(isset($_POST['notedonnee']) && isset($_POST['avisdonne'])) {
     $note = $_POST['notedonnee'];
     $avis = $_POST['avisdonne'];
 
 
                 
-    // ON COMMENCE L'ENREGISTREMENT
+    // REGISTER STARTING
     $enregistre_avis = $pdo->prepare("INSERT INTO note (membre_id1, membre_id2, note, avis, date_enregistrement) VALUES (:membre_id1, :membre_id2, :note, :avis, NOW())");
     $enregistre_avis->bindParam(':membre_id1', $_SESSION['membre']['id_membre'], PDO::PARAM_STR);
     $enregistre_avis->bindParam(':membre_id2',$membre_info['id_membre'], PDO::PARAM_STR);
@@ -69,7 +69,7 @@ if(isset($_POST['notedonnee']) && isset($_POST['avisdonne'])) {
     header('location:index');
     
     }
-    // Recuperation des commentaire
+    // GET COMMENTS
     $liste_commentaires = $pdo->prepare("SELECT * FROM commentaire WHERE annonce_id = $id_annonce ORDER BY date_enregistrement DESC" ) ;
     $liste_commentaires->execute();
 
@@ -92,11 +92,11 @@ include 'inc/header.inc.php';
             <div class="row">
         <div class="col-6 mt-3">
             <h2 class="text-warning">
-                <!-- TITRE - CATEGORIE -->
+                <!-- CATEGORY TEST -->
                 <?php echo $infos['titre']; ?></h2>
         </div>
         <div class="col-6 mt-3">
-            <!-- LIEN CONTACT -->
+            <!-- CONTACT LINK -->
             <!-- Ligthbox contact -->
             <button type="button" class="btn text-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?php echo $membre_info['pseudo']; ?>">Contacter le vendeur</button>
 
@@ -128,7 +128,7 @@ include 'inc/header.inc.php';
         </div>
     </div>
 
-    <!-- Presnetation de l'annonce -->
+    <!-- announce presentation -->
     <div class="row mt-2">
         <div class="col-6 mt-2">
 
@@ -142,12 +142,10 @@ include 'inc/header.inc.php';
 
 
                         foreach ($photo as $indice => $valeur) {
-                            // on recupere les indices des photos de la table photo
                             if ($indice == 'photo1' || $indice == 'photo2'  ||  $indice == 'photo3' ||  $indice == 'photo4'  ||  $indice == 'photo5') {
-                                //On affiche les photo que si la variable $valeur n'est pas vide
                                 if (!empty($valeur)) {  ?>
 
-                                    <!-- si le compteur est a 1 le carousel sera 'active' -->
+                                    <!-- if carrousel = 1 so carrousel is activated -->
                                     <div class="row carousel-item <?php if ($counter === 1) {
                                                                         echo ' active';
                                                                     } ?>">
@@ -156,14 +154,14 @@ include 'inc/header.inc.php';
                                     </div>
 
                     <?php
-                                    // On incremente le compteur à chaque tour de la boucle pour l'affichage du carousel
+                                    // carousel incrementation
                                     $counter++;
                                 }
                             }
                         }
                     }
                     ?>
-                    <!-- Bouttons du carousel -->
+                    <!-- carrousel button's -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -258,7 +256,7 @@ include 'inc/header.inc.php';
                     </table>
             </div>
     </div>
-    <!-- LightBox avis et commentaire si l'utilisateur est connecté-->
+    <!-- LightBox -->
     <?php   if(user_is_connected()== true){           ?>
     <div class="row mt-4">
         <div class="col-6">
@@ -294,7 +292,7 @@ include 'inc/header.inc.php';
         </div>
     </div>
     <?php } ?>
-    <!-- Si l'utilisteur connete decide de laisser un commentaire  -->
+    <!-- Si user drop a comment  -->
                 <?php
     if(isset($_POST['noter']) && $_POST['noter'] == 'commentaire' ) {
             echo '<form method="post" class="row border p-3  shadow  mb-5 rounded w-50 mx-auto">

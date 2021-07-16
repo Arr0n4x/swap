@@ -1,14 +1,7 @@
 
 <?php
 
-// if(isset($_GET['recherche'])){
-//     $recherche= $pdo->prepare("SELECT * FROM categorie WHERE motcles LIKE '%".$_GET['recherche']."%'");
-//     $recherche->bindParam(':motcles', $_GET['recherche'], PDO::PARAM_STR);
-//     $recherche->execute();
-//     $resultat_recherche = $recherche->fetchAll(PDO::FETCH_ASSOC);
-//     var_dump($resultat_recherche);
-    
-// }
+
 ?>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top star">
             <div class="container-fluid ">
@@ -48,7 +41,7 @@
 
                         <?php } ?>
                         
-                        <!-- liens pour l'admin -->
+                        <!-- admin links -->
                         <?php if( user_is_admin() == true ) { ?>
 
 
@@ -64,7 +57,7 @@
                         </li>
 
                         <?php } ?>
-                        <!-- /liens pour l'admin -->
+                        <!-- /admin links -->
 
                     </ul>
                     <form class="d-flex" method="GET" action="<?php echo URL; ?>index.php">
@@ -77,6 +70,7 @@
             </div>
             <!-- JQUERY CDN -->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"></script>
+            <!-- APP JS -->
             <script src="assets/js/app.js"></script>
         </nav>
         

@@ -3,16 +3,16 @@ include '../inc/init.inc.php';
 include '../inc/functions.inc.php';
 
 
-// Si l'utilisateur n'est pas admin on redirige vers connexion.php
+// if user is not admin he can't access to this page
 if( user_is_admin() == false ) {
     header('location:../connexion.php');
     }
 
     $info_notes = $pdo->query("SELECT * FROM note ");
-// Recuperation des nom des membres qui notent
+// getting name and note
 $info_membre_1 = $pdo->query("SELECT * FROM membre AS m, note AS n WHERE m.id_membre = n.membre_id1");
 
-// Recuperation de la personne qui a été notée
+// getting the person who has noted 
 
 $info_membre_2 = $pdo->query("SELECT * FROM membre AS m, note AS n WHERE m.id_membre = n.membre_id2");
 
@@ -53,7 +53,7 @@ include '../inc/nav.inc.php';
                     <?php
                             if ($info_notes->rowCount() > 0) {
                                 while ($note = $info_notes->fetch(PDO::FETCH_ASSOC)) {
-                                    // definission des etoiles en fonction de la note
+                                    // define the stars whit the note
                                     if ($note['note'] == 1) {
                                         $noteetoilee =  '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
                                     } elseif ($note['note'] == 2) {

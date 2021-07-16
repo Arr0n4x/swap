@@ -7,7 +7,7 @@
         <!-- swap JS-->
         <script src="<?php echo URL; ?>assets/js/script.js"></script>
     </body>
-    <footer class="bg-dark text-center text-white">
+    <footer class="bg-dark text-center text-white sticky-bottom">
             <!-- Grid container -->
             <div class="container p-4 pb-0">
               <!-- Section: Social media -->

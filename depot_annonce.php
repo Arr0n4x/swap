@@ -201,7 +201,7 @@ if(isset($_POST['titre']) &&
     }elseif(empty($_FILES['photo1']['name'])){
         $erreur = true;
          $msg.=$msg .= '<div class="alert alert-warning" role="alert">1 photo minimum obligatoire</div>';
-      } // fin controle image chargé
+      } // end of control image loaded
         if( $erreur == false ) {
             if(empty($id_annonce)){
             $enregistrement_photo = $pdo->prepare('INSERT INTO photo (id_photo, photo1, photo2, photo3, photo4, photo5) VALUES(NULL, :photo1, :photo2, :photo3, :photo4, :photo5)');
@@ -267,19 +267,19 @@ if(isset($_POST['titre']) &&
 //--------------------------------------
 
 if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id_annonce']) ) {
-    // si l'indice action existe dans $_GET et si sa valeur est égal à supprimmer && et si id_annonce existe et n'est pas vide dans $_GET
-    // Requete delete basée sur l'id_annonce pour supprimer l'annonce  en question.
+    // if action exist in $_GET and if the value is egal tu delete && if id_annonce exist and not empty in $_GET
+    // Request to delete based on the id_annonce 
     $select_annonce = $pdo->prepare("SELECT * FROM annonce WHERE id_annonce = :id_annonce");
     $select_annonce->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR);
     $select_annonce->execute();
     $annonce_suppr = $select_annonce->fetch(PDO::FETCH_ASSOC);
     $id_photo_supp = $annonce_suppr['photo_id'];
-    $suppression = $pdo->prepare("DELETE FROM annonce WHERE id_annonce = :id_annonce");// preparer la requete
-    $suppression->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR);// selectionner la cible de la requete
+    $suppression = $pdo->prepare("DELETE FROM annonce WHERE id_annonce = :id_annonce");// prepare
+    $suppression->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR);// choose the targert of the request
     $suppression_id_photo = $pdo->prepare("DELETE FROM photo WHERE id_photo = :photo_id");
     $suppression_id_photo->bindParam(':photo_id',$id_photo_supp, PDO::PARAM_STR);
     $suppression_id_photo->execute();
-    $suppression->execute(); // executer la requete
+    $suppression->execute(); // execute request 
     
 }
 //--------------------------------------
@@ -378,7 +378,7 @@ include 'inc/nav.inc.php';
                             <div class="mb-3">
                                 <label for="ville" class="form-label"><i class="fas fa-house-user seaGreen"></i> Ville</label>
                                 <input type="text" class="form-control " id="ville" name="ville" value="<?php echo $ville; ?>">
-                                  <!-- <select class="form-control " id="ville" name="ville" ></select> -->
+                                  
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" class="form-control " id="id_annonce" name="id_annonce" value="<?php echo $id_annonce; ?>">
@@ -419,7 +419,7 @@ include 'inc/nav.inc.php';
                                     }
                                 }
 
-                                // Rajout de deux liens pour les actions : modifier, supprimer
+                                // add two links : modifier and supprimer
                                 echo '<td><a href="?action=modifier&id_annonce=' . $annonce['id_annonce'] . '" class="btn btn-primary"><i class="far fa-edit"></i></a></td>';
                                 echo '<td><a href="?action=supprimer&id_annonce=' . $annonce['id_annonce'] . '" class="btn btn-danger" onclick="return (confirm(\'êtes vous sûr ?\'))"><i class="far fa-trash-alt"></i></a></td>';
                                 echo '</tr>';

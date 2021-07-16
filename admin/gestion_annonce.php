@@ -11,26 +11,24 @@ if (user_is_admin() == false) {
 //--------------------------------------
 //--------------------------------------
 //--------------------------------------
-// $req_membre = $pdo->query('SELECT membre.pseudo FROM membre membre, annonce annonce WHERE  annonce.membre_id = membre.id_membre');
+
 //-------------SUPPRIMER ANNONCE------------
 //--------------------------------------
 //--------------------------------------
 
 if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id_annonce'])) {
-    // si l'indice action existe dans $_GET et si sa valeur est égal à supprimmer && et si id_article existe et n'est pas vide dans $_GET
-    // Requete delete basée sur l'id_article pour supprimer l'article  en question.
-    $suppression = $pdo->prepare("DELETE FROM annonce WHERE id_annonce = :id_annonce"); // preparer la requete
-    $suppression->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR); // selectionner la cible de la requete
-    $suppression->execute(); // executer la requete 
+    $suppression = $pdo->prepare("DELETE FROM annonce WHERE id_annonce = :id_annonce"); // prepare
+    $suppression->bindParam(':id_annonce', $_GET['id_annonce'], PDO::PARAM_STR); // choose target
+    $suppression->execute(); // execute
 }
 //--------------------------------------
 //--------------------------------------
 //--------------------------------------
 
-//------RECUPERATION ANNONCE-------------
+//------GET ANNONCE-------------
 //--------------------------------------
 //--------------------------------------
-// $liste_annonce = $pdo->query("SELECT * FROM annonce ORDER BY  titre");
+
 $liste_annonce = $pdo->query("SELECT annonce.*, pseudo AS membre, categorie.titre AS categorie FROM annonce
 LEFT JOIN membre ON membre.id_membre = annonce.membre_id
 LEFT JOIN categorie ON categorie.id_categorie = annonce.categorie_id
@@ -93,8 +91,7 @@ include '../inc/nav.inc.php';
                         
                     }
                 }
-                // r    Rajout de deux liens pour les actions : search, supprimer
-                // echo '<td><a href="?action=modifier&id_annonce=' . $annonce['id_annonce'] . ' " class="btn btn-warning"><i class="far fa-edit"></i></a></td>';
+               
                 echo '<td><a href="?action=supprimer&id_annonce=' . $annonce['id_annonce'] . '" class="btn btn-danger" onclick="return(confirm(\'Êtes vous sûr de supprimer ?\'))"><i class="far fa-trash-alt"></i></a></td>';
                 echo '</tr>';
             }

@@ -60,7 +60,7 @@ include 'inc/header.inc.php';
 include 'inc/nav.inc.php';
 ?>
         <main class="container">
-            <div class="bg-light p-5 rounded text-center">
+            <div class="star p-5 rounded text-center text-warning">
             <br>
                 <h1><i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover"></i> SWAP <i class="fab fa-rebel text-danger fa-2x faa-burst animated-hover"></i></h1>
                 <p class="lead">It's a long way to the top if you wanna Swap n' Roll<hr><?php echo $msg; ?></p>                
@@ -69,7 +69,7 @@ include 'inc/nav.inc.php';
            
             <div class="row">
         <div class=" mx-auto col-lg-8 col-sm-12 mt-2 mb-5">
-            <div class="p-2 mt-5 rounded text-center shadow-lg border border-seaGreen">
+            <div class="p-2 mt-5 rounded text-center text-warning star shadow-lg border border-seaGreen">
                 <h2 class="seaGreen"> Ses info </h2>
             </div>
             <div class="col-8 mt-5 text-warning">
@@ -125,7 +125,7 @@ include 'inc/nav.inc.php';
             </div>
 
 
-            <div class="p-2 mt-5 rounded text-center shadow-lg border border-seaGreen">
+            <div class="p-2 mt-5 rounded text-center text-warning star shadow-lg border border-seaGreen">
                 <h2 class="seaGreen">Ses annonces</h2>
             </div>
             <div class="row mt-2 mb-3">

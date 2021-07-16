@@ -13,10 +13,10 @@ include '../inc/functions.inc.php';
                     //--------------------------------------
 
                     if( isset($_GET['action']) && $_GET['action'] == 'supprimer' && !empty($_GET['id_commentaire']) ) {
-                        // si l'indice action existe dans $_GET et si sa valeur est égal à supprimmer && et si id_article existe et n'est pas vide dans $_GET
-                        // Requete delete basée sur l'id_article pour supprimer l'article  en question.
-                        $suppression = $pdo->prepare("DELETE FROM commentaire WHERE id_commentaire = :id_commentaire");// preparer la requete
-                        $suppression->bindParam(':id_commentaire', $_GET['id_commentaire'], PDO::PARAM_STR);// selectionner la cible de la requete
+                        // if indice action exist on $_GET and if the value is egual tu supprimmer && if id_article exist and is not empty in GET
+                        // Request on id_article
+                        $suppression = $pdo->prepare("DELETE FROM commentaire WHERE id_commentaire = :id_commentaire");// prepare
+                        $suppression->bindParam(':id_commentaire', $_GET['id_commentaire'], PDO::PARAM_STR);// select the target
                         $suppression->execute(); // executer la requete 
                         }
                         //--------------------------------------
@@ -25,7 +25,7 @@ include '../inc/functions.inc.php';
 
 
                         
-                        //------RECUPERATION MEMBRE-------------
+                        //------GETTING MEMBER------------------
                         //--------------------------------------
                         //--------------------------------------
                         $liste_commentaire = $pdo->query("SELECT * FROM commentaire ORDER BY  id_commentaire");

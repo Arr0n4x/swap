@@ -3,7 +3,7 @@ include 'inc/init.inc.php';
  include 'inc/functions.inc.php';
 
 
-// Declaration de la viriable pour recuprer les filtre de prix
+// PRICE FILTER
 $requete_filtre ="";
 // Requetes
 $liste_categories = $pdo->query("SELECT titre FROM categorie GROUP BY titre");
@@ -12,25 +12,24 @@ $annonces_cp = $pdo->query("SELECT id_annonce, cp FROM annonce ORDER BY  date_en
 
 
 
-// requete de récupération des annonces par categorie
+// CATEGORY FILTER
 if (isset($_GET['categorie'])) {
     $liste_annonces = $pdo->prepare("SELECT * FROM annonce WHERE categorie_id IN (SELECT id_categorie FROM categorie WHERE titre = :titre)");
     $liste_annonces->bindParam(':titre', $_GET['categorie'], PDO::PARAM_STR);
     $liste_annonces->execute();
 }elseif (isset($_GET['membre'])) {
-    // requete de recupration des annonces par membre
     $liste_annonces = $pdo->prepare("SELECT * FROM annonce WHERE membre_id IN (SELECT id_membre FROM membre WHERE pseudo = :pseudo)");
     $liste_annonces->bindParam(':pseudo', $_GET['membre'], PDO::PARAM_STR);
     $liste_annonces->execute();
 }elseif (isset($_GET['cp'])) {
-    // requete de recupration des annonces par code postal
+    // CP GETTINGS
     $liste_annonces = $pdo->prepare("SELECT * FROM annonce WHERE cp = :cp");
     $liste_annonces->bindParam(':cp', $_GET['cp'], PDO::PARAM_STR);
     $liste_annonces->execute();
 } else {
     $liste_annonces = $pdo->query("SELECT id_annonce, titre, description_courte, prix, photo, categorie_id, cp FROM annonce ORDER BY  date_enregistrement");
 }
- // requete de récupération des annonce par le champs recherche 
+ // REQUEST FOR SEARCHIN' BAR
  if(isset($_GET['recherche'])){
      $liste_annonces=$pdo->prepare("SELECT * FROM annonce WHERE description_courte LIKE :description_courte");
      $search='%'.$_GET['recherche'].'%';
@@ -87,7 +86,7 @@ include 'inc/header.inc.php';
                         </div>
             </form>
         </div>
-            <!-- Filtre catégories -->
+            <!-- CATEGORY FILTER -->
            
                
                 <div class="dropdown col-3 text-center">
@@ -106,7 +105,7 @@ include 'inc/header.inc.php';
                 </div>
            
            
-            <!-- Filtre membres -->
+            <!-- MEMBERS FILTER -->
            
                 <div class="dropdown col-3 text-center">
                     <button class="btn star text-warning  episode dropdown-toggle col-10 mt-4 mb-4 mx-auto" type="button" id="dropdownButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -122,7 +121,7 @@ include 'inc/header.inc.php';
                     </ul>
                 </div>
            
-            <!-- Filtre code postal -->
+            <!-- CP FILTER -->
        
             <div class="dropdown col-3 text-center">
                     <button class="btn bg-grayS text-warning star episode  dropdown-toggle col-10 mt-4 mb-4 mx-auto" type="button" id="dropdownButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -140,10 +139,10 @@ include 'inc/header.inc.php';
           
         </div>
     </div>
-    <!-- Fin des filtres -->
+    <!-- FILTER'S END -->
             
             
-                <div class="col-sm-9 mt-5" >
+                <div class="col-sm-12 mt-5" >
                     <div class="row">
                     <?php
                          if( $liste_annonces->rowCount() < 1) {
